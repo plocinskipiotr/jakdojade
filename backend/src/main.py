@@ -1,6 +1,7 @@
 from etl_process import SimpleETL
 from constants import DB_CONF, CITIES_FILE, POL_TO_ENG, ROUTES_DIR, STOPS_DIR, STOP_TIMES_DIR, TRIPS_DIR, POSTGRES
 from db_service import DBService
+from endpoints_queries import get_stops
 
 
 def route_transformation() -> callable:
@@ -26,8 +27,10 @@ def trips_transformation() -> callable:
 if __name__ == "__main__":
     db = DBService(DB_CONF, POSTGRES)
     db.build_schema()
-    SimpleETL.file(CITIES_FILE, city_transformation(), db)
-    SimpleETL.directory(ROUTES_DIR, route_transformation(), db)
-    SimpleETL.directory(STOP_TIMES_DIR, stop_times_transformation(), db)
-    SimpleETL.directory(STOPS_DIR, stop_transformation(), db)
-    SimpleETL.directory(TRIPS_DIR, trips_transformation(), db)
+    # SimpleETL.file(CITIES_FILE, city_transformation(), db)
+    # SimpleETL.directory(ROUTES_DIR, route_transformation(), db)
+    # SimpleETL.directory(STOP_TIMES_DIR, stop_times_transformation(), db)
+    # SimpleETL.directory(STOPS_DIR, stop_transformation(), db)
+    # SimpleETL.directory(TRIPS_DIR, trips_transformation(), db)
+    x = get_stops('wroclaw', 51.16892666, 16.9971452)
+    print(x)

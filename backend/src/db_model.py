@@ -47,6 +47,12 @@ class Stops(AbstractConcreteBase, Base):
     stop_lat = Column(FLOAT)
     stop_lon = Column(FLOAT)
 
+    def serialize(self):
+        return {'stop_id': self.route_id,
+                'stop_name': self.route_short_name,
+                'stop_lat': self.route_desc,
+                'stop_lon': self.stop_lon}
+
 
 class Trips(AbstractConcreteBase, Base):
     id = Column(Integer, autoincrement=True, primary_key=True)
