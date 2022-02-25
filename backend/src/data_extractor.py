@@ -13,7 +13,7 @@ Todo:
 
 import logging
 from csv import reader, Sniffer
-from validate_path import validate_path_file
+from backend.src.validate_path import validate_path_file
 
 
 class DataExtractor():

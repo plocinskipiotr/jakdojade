@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 
 POSTGRES = 'postgres'
-# ROOT_DIR = os.path.dirname(os.path.abspath(__file__).parent.parent)
 ROOT_DIR = Path(__file__).parent.parent.parent
 
 DB_CONF = os.path.join(ROOT_DIR, 'backend/db/db_conf.json')

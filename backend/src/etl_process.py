@@ -6,11 +6,11 @@ Contains ETL processes
 
 """
 
-from db_service import DBService
-from data_loader import DataLoader
-from data_transformer import DataTransformer
-from data_extractor import DataExtractor
-from validate_path import validate_path
+from backend.src.db_service import DBService
+from backend.src.data_loader import DataLoader
+from backend.src.data_transformer import DataTransformer
+from backend.src.data_extractor import DataExtractor
+from backend.src.validate_path import validate_path
 import os
 
 
@@ -47,7 +47,9 @@ class SimpleETL:
             db (DBService) : db object
         """
         filename = path.split('/')[-1].split('.')[0]
-        process = SimpleETL(DataExtractor(path), DataTransformer(func), DataLoader(db, filename))
+        process = SimpleETL(DataExtractor(path),
+                            DataTransformer(func),
+                            DataLoader(db, filename))
         process.execute()
 
     @staticmethod

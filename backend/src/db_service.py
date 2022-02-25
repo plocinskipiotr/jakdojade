@@ -71,7 +71,7 @@ class DBService():
             It uses Base object from db_model to construct the db schema.
         """
         engine = self.get_engine()
-        # Base.metadata.drop_all(engine)
+        #Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
 
     @staticmethod

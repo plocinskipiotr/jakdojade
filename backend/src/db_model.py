@@ -1,5 +1,3 @@
-import json
-
 from sqlalchemy import Column, Integer, String, VARCHAR, FLOAT
 from sqlalchemy.ext.declarative import declarative_base, AbstractConcreteBase
 
@@ -48,9 +46,9 @@ class Stops(AbstractConcreteBase, Base):
     stop_lon = Column(FLOAT)
 
     def serialize(self):
-        return {'stop_id': self.route_id,
-                'stop_name': self.route_short_name,
-                'stop_lat': self.route_desc,
+        return {'stop_id': self.stop_id,
+                'stop_name': self.stop_name,
+                'stop_lat': self.stop_lat,
                 'stop_lon': self.stop_lon}
 
 
@@ -59,46 +57,4 @@ class Trips(AbstractConcreteBase, Base):
     route_id = Column(String, primary_key=True)
     trip_id = Column(String)
     trip_headsign = Column(String)
-
-
-class WroclawRoutes(Routes):
-    __tablename__ = 'wroclaw_routes'
-
-
-class WroclawStopTimes(StopTimes):
-    __tablename__ = 'wroclaw_stop_times'
-
-
-class WroclawStops(Stops):
-    __tablename__ = 'wroclaw_stops'
-
-
-class WroclawTrips(Trips):
-    __tablename__ = 'wroclaw_trips'
-
-
-class PoznanRoutes(Routes):
-    __tablename__ = 'poznan_routes'
-
-
-class KaliszRoutes(Routes):
-    __tablename__ = 'kalisz_routes'
-
-
-class TableToClassParser():
-    table_class = {'cities': Cities,
-                   'wroclaw_routes': WroclawRoutes,
-                   'wroclaw_stops': WroclawStops,
-                   'wroclaw_trips': WroclawTrips,
-                   'wroclaw_stop_times': WroclawStopTimes,
-                   'poznan_routes': PoznanRoutes,
-                   'kalisz_routes': KaliszRoutes,
-                   }
-
-    @classmethod
-    def parse(cls, table_name):
-        try:
-            return cls.table_class[table_name]
-        except KeyError:
-            raise KeyError('Error during parsing table name to corresponding class name,\n'
-                           'table_class content: ' + str(TableToClassParser.table_class))
+    direction_id = Column(Integer)

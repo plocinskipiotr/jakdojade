@@ -10,8 +10,8 @@ Example:
     loader.load_data(data)
 """
 
-from db_service import DBService
-from db_model import TableToClassParser
+from backend.src.db_service import DBService
+from backend.src.db_table_to_class import TableToClass
 
 
 class DataLoader():
@@ -55,5 +55,4 @@ class DataLoader():
             table_name and corresponding must be in
             TableToClassParser.table_class
         """
-        return TableToClassParser.parse(table_name)
-
+        return TableToClass.parse(table_name)
