@@ -10,9 +10,8 @@ Example:
     loader.load_data(data)
 """
 
-from city_container import CityContainer
 from db_service import DBService
-import sys
+from db_model import TableToClassParser
 
 
 class DataLoader():
@@ -23,17 +22,14 @@ class DataLoader():
         table_name (str): target table name
     attributes:
         db (DBService): DB management object
-        cities (dict): hashmap in format {city_name (str) : city_class bound with table}
-        table_cls (class) : class connected to adequate table in database
+        table_cls (class) : class connected to adequate table in db
     note:
         this class check implicitly if adequate sqlalchemy class bound to table
-        exists, the table MUST be present in database schema, there is no way to create
-        table 'on the fly'.
+        exists, the table MUST be present in database schema.
     """
 
     def __init__(self, db: DBService, table_name: str):
         self.db = db
-        self.cities = CityContainer().cities
         self.table_cls = self.find_table_class(table_name)
 
     def load_data(self, data: list[list]):
@@ -43,7 +39,7 @@ class DataLoader():
             data in format list[list]
 
         """
-        Session = self.db.get_session()
+        Session = self.db.get_sessionmaker()
         with Session.begin() as session:
             for item in data:
                 el = self.table_cls(**item)
@@ -55,11 +51,9 @@ class DataLoader():
         arguments:
             table_name (str): name of the table
 
-        notes:
-            corresponding classes can be found either in dynamically typed
-            (cities) or in db_model file.
+        note:
+            table_name and corresponding must be in
+            TableToClassParser.table_class
         """
-        if table_name in self.cities.keys():
-            return self.cities[table_name]
-        else:
-            return getattr(sys.modules['db_model'], table_name.title())
+        return TableToClassParser.parse(table_name)
+

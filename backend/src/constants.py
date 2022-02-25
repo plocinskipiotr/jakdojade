@@ -1,8 +1,16 @@
-WROCLAW_ROUTES_TXT = '../data/routes/wroclaw.txt'
+import os
+from pathlib import Path
+
 POSTGRES = 'postgres'
-DB_CONF = '../db/db_conf.json'
-ROUTES_DIR = '../data/routes'
-CITIES_FILE = '../data/cities.txt'
+# ROOT_DIR = os.path.dirname(os.path.abspath(__file__).parent.parent)
+ROOT_DIR = Path(__file__).parent.parent.parent
+
+DB_CONF = os.path.join(ROOT_DIR, 'backend/db/db_conf.json')
+ROUTES_DIR = os.path.join(ROOT_DIR, 'backend/data/routes')
+STOP_TIMES_DIR = os.path.join(ROOT_DIR, 'backend/data/stop_times')
+STOPS_DIR = os.path.join(ROOT_DIR, 'backend/data/stops')
+TRIPS_DIR = os.path.join(ROOT_DIR, 'backend/data/trips')
+CITIES_FILE = os.path.join(ROOT_DIR, 'backend/data/cities.txt')
 
 POL_TO_ENG = {ord('ł'): ord('l'),
               ord('ą'): ord('a'),

@@ -9,11 +9,11 @@ Contains class DBService which can be used to DB operations
 import json
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_model import Base
+from backend.src.db_model import Base
 
 
 class DBService():
-    """This class is responsible for database operations management
+    """This class is responsible for db communication
 
         arguments:
             path (str) : path to db config file
@@ -47,11 +47,11 @@ class DBService():
         parser = self.string_parser()
         return parser(self.conf[self.db_type])
 
-    def get_session(self) -> sessionmaker:
+    def get_sessionmaker(self) -> sessionmaker:
         """gets sessionmaker object"""
         engine = self.get_engine()
-        session = sessionmaker(engine)
-        return session
+        session_maker = sessionmaker(engine)
+        return session_maker
 
     def get_engine(self):
         """gets engine object"""
