@@ -38,7 +38,7 @@ def find_closest_stops(user: User, stops: list[Stops], stop_limit=5):
 
     stops = distance_filter(max_heap, user.age)
     stops = sorted(stops, key=lambda x: x.distance, reverse=True)
-    stops = [item.stop for item in stops]
+    stops = [item.stop.stop_id for item in stops]
 
     return stops
 
