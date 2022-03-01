@@ -1,4 +1,4 @@
-from backend.src.constants import POL_TO_ENG
+from backend.src.migration.constants import POL_TO_ENG
 
 
 def route_trans() -> callable:

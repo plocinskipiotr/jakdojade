@@ -1,6 +1,4 @@
-import datetime
-
-from sqlalchemy import Column, Integer, String, VARCHAR, FLOAT, DateTime
+from sqlalchemy import Column, Integer, String, VARCHAR, FLOAT
 from sqlalchemy.ext.declarative import declarative_base, AbstractConcreteBase
 
 Base = declarative_base()

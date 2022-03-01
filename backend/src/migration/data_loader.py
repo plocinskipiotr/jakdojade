@@ -10,8 +10,8 @@ Example:
     loader.load_data(data)
 """
 
-from backend.src.db_service import DBService
-from backend.src.db_table_to_class import TableToClass
+from backend.src.model.db_service import DBService
+from backend.src.model.db_table_to_class import TableToClass
 
 
 class DataLoader():

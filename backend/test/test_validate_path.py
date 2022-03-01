@@ -1,6 +1,6 @@
 import pytest
 
-from backend.src.validate_path import validate_path_file
+from backend.src.controller.validate_path import validate_path_file
 
 CSV_PATH = '../testdata/data.csv'
 invalid_path = 'invalid'

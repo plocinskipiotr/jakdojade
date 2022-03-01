@@ -9,7 +9,7 @@ Contains class DBService which can be used to DB operations
 import json
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from backend.src.db_model import Base
+from backend.src.model.db_base import Base
 
 
 class DBService():

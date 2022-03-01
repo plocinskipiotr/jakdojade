@@ -6,11 +6,11 @@ Contains ETL processes
 
 """
 
-from backend.src.db_service import DBService
-from backend.src.data_loader import DataLoader
-from backend.src.data_transformer import DataTransformer
-from backend.src.data_extractor import DataExtractor
-from backend.src.validate_path import validate_path
+from backend.src.model.db_service import DBService
+from backend.src.migration.data_loader import DataLoader
+from backend.src.migration.data_transformer import DataTransformer
+from backend.src.migration.data_extractor import DataExtractor
+from backend.src.controller.validate_path import validate_path
 import os
 
 
@@ -18,7 +18,7 @@ class SimpleETL:
     """This class provides ETL processes
 
         Arguments/attributes:
-            extractor (DataExtractor): extracts data
+            migration (DataExtractor): extracts data
             transformer (DataTransformer): transforms data
             loader (DataLoader): loads data to db
 

@@ -1,7 +1,7 @@
-from backend.src.db_kalisz import KaliszRoutes, KaliszStops, KaliszTrips, KaliszStopTimes
-from backend.src.db_model import Cities
-from backend.src.db_poznan import PoznanRoutes, PoznanStops, PoznanTrips, PoznanStopTimes
-from backend.src.db_wroclaw import WroclawRoutes, WroclawTrips, WroclawStopTimes, WroclawStops
+from backend.src.model.db_kalisz import KaliszRoutes, KaliszStops, KaliszTrips, KaliszStopTimes
+from backend.src.model.db_base import Cities
+from backend.src.model.db_poznan import PoznanRoutes, PoznanStops, PoznanTrips, PoznanStopTimes
+from backend.src.model.db_wroclaw import WroclawRoutes, WroclawTrips, WroclawStopTimes, WroclawStops
 
 
 class TableToClass():

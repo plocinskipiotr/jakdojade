@@ -3,8 +3,8 @@ Contains class DataExtractor which can be used to extract data
 from different file formats
 
 Example:
-    extractor  = DataExtractor(path)
-    data = extractor.extract_data()
+    migration  = DataExtractor(path)
+    data = migration.extract_data()
 
 Todo:
     * Add _extract_json implementation
@@ -13,7 +13,7 @@ Todo:
 
 import logging
 from csv import reader, Sniffer
-from backend.src.validate_path import validate_path_file
+from backend.src.controller.validate_path import validate_path_file
 
 
 class DataExtractor():
@@ -56,7 +56,7 @@ class DataExtractor():
         if self.path[-3:] == 'csv':
             return self._extract_csv
         if self.path[-3:] == 'txt':
-            logging.warning('input data with .txt extension ' + str(self._extract_csv) + ' extractor chosen')
+            logging.warning('input data with .txt extension ' + str(self._extract_csv) + ' migration chosen')
             return self._extract_csv
         elif self.path[-4:] == 'json':
             return self._extract_json

@@ -5,14 +5,15 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).parent.parent.parent
 sys.path.append(str(ROOT_DIR))
 
+from backend.src.model.db_queries import query_cities, query_routes, query_stops
+from backend.src.view.view import serialize_cities, serialize_routes, serialize_stops
+
 from flask import Flask, jsonify, request
-from backend.src.endpoints_queries import get_cities, get_routes, get_stops, get_trips
-from backend.src.user import User
-from backend.src.db_init import db_init
+from backend.src.controller.user import User
+from backend.src.controller.closest_stops import closest_stops
+from backend.src.controller.next_departure import next_departure
 
-db_init()
-
-
+# db_init()
 
 app = Flask(__name__)
 
@@ -24,51 +25,43 @@ def hello():
 
 @app.route('/public_transport/cities', methods=['GET'])
 def cities():
-    cities = get_cities()
+    cities = query_cities()
+    cities = serialize_cities(cities)
     return cities
 
 
 @app.route('/public_transport/city/<string:city>/routes', methods=['GET'])
 def city_routes(city):
-    routes = get_routes(city)
-    routes = [item.serialize() for item in routes]
-    routes = jsonify(routes)
+    routes = query_routes(city)
+    routes = serialize_routes(routes)
     return routes
 
 
 @app.route('/public_transport/city/<string:city>/stop', methods=['GET'])
 def closest_stop(city: str):
-    user_latitude = float(request.args.get('latitude'))
-    user_longitude = float(request.args.get('longitude'))
-    age = int(request.args.get('age', 25))
-    stops = get_stops(city, User(user_latitude, user_longitude, age))
-    stops = [item.serialize() for item in stops]
-    stops = jsonify(stops)
+    u_lat = float(request.args.get('latitude'))
+    u_long = float(request.args.get('longitude'))
+    u_age = int(request.args.get('age', 25))
+    u = User({'lat': u_lat, 'long': u_long}, u_age)
+
+    stops = closest_stops(u, query_stops(city), stop_limit=5)
+    stops = serialize_stops(stops)
     return stops
 
-@app.route('/public_transport/city/<string:city>/departure', methods=['GET'])
-def closest_departure(city: str):
-    user_latitude = float(request.args.get('latitude'))
-    user_longitude = float(request.args.get('longitude'))
-    age = int(request.args.get('age', 25))
-    stops = get_stops(city, User(user_latitude, user_longitude, age), stop_limit=1)
-    res = get_trips(city,stops)
-    #stops = [item.serialize() for item in stops]
-    #stops = jsonify(stops)
-    #return stops
 
+@app.route('/public_transport/city/<string:city>/next_departure', methods=['GET'])
+def departure(city: str):
+    user_lat = float(request.args.get('latitude'))
+    user_long = float(request.args.get('longitude'))
+    user_age = int(request.args.get('age', 25))
+    user = User({'lat': user_lat, 'long': user_long}, user_age)
 
-# @app.route('/public_transport/city/<string:city>/departure', methods=['GET'])
-# def closest_departure(city: str):
-#     user_latitude = float(request.args.get('user_latitude'))
-#     user_longitude = float(request.args.get('user_longitude'))
-#     age = int(request.args.get('age', 25))
-#     dest_latitude = float(request.args.get('dest_latitude'))
-#     dest_longitude = float(request.args.get('dest_longitude'))
-#
-#     start_stop = get_stops(city, User(user_latitude, user_longitude, age), stop_limit=1)[0]
-#     end_stop = get_stops(city, User(dest_latitude, dest_longitude, age), stop_limit=1)[0]
-#     routes = get_routes(city)
-#     find_route(city,start_stop, end_stop)
-#
-#     time = int(request.args.get('time', datetime.datetime.now()))
+    end_lat = float(request.args.get('latitude'))
+    end_long = float(request.args.get('longitude'))
+    end = User({'lat': end_lat, 'long': end_long}, user_age)
+
+    user_stop = closest_stops(user, query_stops(city), stop_limit=1)
+    end_stop = closest_stops(end, query_stops(city), stop_limit=1)
+
+    x = next_departure(list(user_stop)[0], list(end_stop)[0])
+    return x
