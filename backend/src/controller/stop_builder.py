@@ -6,6 +6,7 @@ from backend.src.controller.stop import Stop
 from backend.src.controller.trip import Trip
 from backend.src.controller.trip_builder import TripSQLDirector
 from backend.src.model.db_queries import query_geoloc, query_trip_ids
+from backend.src.model.db_base import Stops
 
 
 class StopBuilder():
@@ -22,7 +23,7 @@ class StopBuilder():
         return self
 
     def with_gps_coordinates(self, gps_coordinates: GPS_Coordinates):
-        self.stop.geopoint = gps_coordinates
+        self.stop.gps_coordinates = gps_coordinates
         return self
 
     def with_trips(self, trips: set[Trip] | None):
@@ -45,15 +46,15 @@ class StopStandardDirector():
             .get_result()
 
 
-class StopSQLDirector():
+class StopIDDirector():
 
     @staticmethod
     def construct(city: str, id: int) -> Stop:
         return StopBuilder() \
             .with_city(city) \
             .with_id(id) \
-            .with_gps_coordinates(StopSQLDirector.to_gps_coordinates(query_geoloc(city, id))) \
-            .with_trips(StopSQLDirector.to_set(city, query_trip_ids(city, id))) \
+            .with_gps_coordinates(StopIDDirector.to_gps_coordinates(query_geoloc(city, id))) \
+            .with_trips(to_set(city, query_trip_ids(city, id))) \
             .get_result()
 
     @staticmethod
@@ -62,10 +63,22 @@ class StopSQLDirector():
         g = GPSCoordinatesDirector.construct(single_point[0], single_point[1])
         return g
 
+
+class StopDBModelDirector():
+
     @staticmethod
-    def to_set(city: str, iterator: Iterator[tuple]) -> set[Trip]:
-        trips = set()
-        for el in iterator:
-            trip = TripSQLDirector.construct(city, el[0])
-            trips.add(trip)
-        return trips
+    def construct(city: str, stop: Stops) -> Stop:
+        return StopBuilder() \
+            .with_city(city) \
+            .with_id(stop.stop_id) \
+            .with_gps_coordinates(GPSCoordinatesDirector.construct(stop.stop_lat, stop.stop_lon)) \
+            .with_trips(to_set(city, query_trip_ids(city, stop.stop_id))) \
+            .get_result()
+
+
+def to_set(city: str, iterator: Iterator[tuple]) -> set[Trip]:
+    trips = set()
+    for el in iterator:
+        trip = TripSQLDirector.construct(city, el[0])
+        trips.add(trip)
+    return trips

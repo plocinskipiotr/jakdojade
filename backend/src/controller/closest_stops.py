@@ -1,7 +1,5 @@
 import heapq
 from collections import namedtuple
-from typing import Iterator
-
 from backend.src.model import db_base
 from backend.src.controller.gps_coordinates import GPS_Coordinates
 from backend.src.controller.gps_coordinates_builder import GPSCoordinatesDirector
@@ -10,7 +8,7 @@ from backend.src.controller.user import User
 HeapNode = namedtuple('Node', ['distance', 'stop'])
 
 
-def closest_stops(user: User, stops: list[db_base.Stops], stop_limit=5) -> Iterator:
+def closest_stops(user: User, stops: list[db_base.Stops], stop_limit=5) -> list[db_base.Stops]:
     def distance_filter(max_heap: list[HeapNode], age: int):
         return list(filter(lambda x: abs(x.distance) < to_radius(age), max_heap))
 
@@ -50,4 +48,4 @@ def closest_stops(user: User, stops: list[db_base.Stops], stop_limit=5) -> Itera
     node_lst = sorted(node_lst, key=lambda x: x.distance, reverse=True)
     stop_lst = [node.stop for node in node_lst]
 
-    return iter(stop_lst)
+    return stop_lst

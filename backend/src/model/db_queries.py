@@ -27,7 +27,7 @@ def query_stops(city: str):
 
 def query_stop_time_tables(city: str, trip_id: str):
     tab_obj = TableToClass.parse(city + '_stop_times')
-    result = session.execute(select(tab_obj.id, tab_obj.arrival_time, tab_obj.departure_time)
+    result = session.execute(select(tab_obj.stop_id, tab_obj.arrival_time, tab_obj.departure_time)
                              .where(tab_obj.trip_id == trip_id))
 
     return result

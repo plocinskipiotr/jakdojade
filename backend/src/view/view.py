@@ -15,7 +15,7 @@ def serialize_routes(routes: Iterator):
     return routes
 
 
-def serialize_stops(stops: Iterator):
+def serialize_stops(stops: list):
     stops = [item.serialize() for item in stops]
     stops = jsonify(stops)
     return stops

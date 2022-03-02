@@ -40,7 +40,7 @@ class TripSQLDirector():
         d = {}
         for item in lst_iterator:
             stop, arrival, departure = item[0], item[1], item[2]
-            d.update({stop: (arrival, departure)})
+            d.update({stop: {'arrival': arrival, 'departure': departure}})
         return d
 
 

@@ -1,7 +1,7 @@
 from backend.src.migration.data_extractor import extract_csv, extract_data
 
-CSV_HEADER_PATH = '../testdata/data_header.csv'
-CSV_PATH = '../testdata/data.csv'
+CSV_HEADER_PATH = '../../testdata/data_header.csv'
+CSV_PATH = '../../testdata/data.csv'
 CSV_RESULT = [['A',
                '2',
                'A',
