@@ -25,29 +25,18 @@ def query_stops(city: str):
     return result
 
 
-def query_stop_deps(city: str, trip_id: int):
+def query_stop_time_tables(city: str, trip_id: str):
     tab_obj = TableToClass.parse(city + '_stop_times')
-    result = session.execute(select(tab_obj.stop_id, tab_obj.departure_time)
-                             .where(tab_obj.trip_id == trip_id) \
-                             .order_by(tab_obj.departure_time))
+    result = session.execute(select(tab_obj.id, tab_obj.arrival_time, tab_obj.departure_time)
+                             .where(tab_obj.trip_id == trip_id))
 
     return result
 
 
-def query_stop_arrivals(city: str, trip_id: int):
-    tab_obj = TableToClass.parse(city + '_stop_times')
-    result = session.execute(select(tab_obj.stop_id, tab_obj.arrival_time)
-                             .where(tab_obj.trip_id == trip_id) \
-                             .order_by(tab_obj.arrival_time))
-
-    return result
-
-
-def query_trips(city: str, stop_id: int, curr_time: str):
+def query_trip_ids(city: str, stop_id: int):
     tab_obj = TableToClass.parse(city + '_stop_times')
     result = session.execute(select(tab_obj.trip_id)
-                             .where(tab_obj.stop_id == stop_id,
-                                    tab_obj.departure_time > curr_time)
+                             .where(tab_obj.stop_id == stop_id)
                              .order_by(tab_obj.trip_id))
     return result
 

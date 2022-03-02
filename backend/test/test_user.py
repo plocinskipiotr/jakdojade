@@ -1,11 +1,9 @@
 from backend.src.controller.user import User
+from backend.src.controller.user_builder import UserDirector
 
 
 class TestUser:
 
     def test_user(self):
-        age = 20
-        coords = {'latitude': 51.17569451,
-                  'longitude': 16.99376387}
-        user = User(coords, age)
-        assert isinstance(user,User)
+        u = UserDirector.construct(51.09193846, 17.04004368, 25)
+        assert isinstance(u, User)

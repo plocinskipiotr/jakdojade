@@ -1,8 +1,8 @@
-from backend.src.controller.geolocation import GeoPoint
+from backend.src.controller.gps_coordinates_builder import GPS_Coordinates
 
 
 class User():
 
-    def __init__(self, coords: dict, age=17):
-        self.age = age
-        self.geopoint = GeoPoint(coords)
+    def __init__(self):
+        self.age: int = 0
+        self.gps_coordinates: GPS_Coordinates = GPS_Coordinates()
