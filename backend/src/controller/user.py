@@ -1,8 +1,8 @@
-from backend.src.controller.gps_coordinates_builder import GPS_Coordinates
+from backend.src.controller.gps_coordinates_builder import GPSCoordinates
 
 
-class User():
+class User:
 
     def __init__(self):
         self.age: int = 0
-        self.gps_coordinates: GPS_Coordinates = GPS_Coordinates()
+        self.gps_coordinates: GPSCoordinates = GPSCoordinates()

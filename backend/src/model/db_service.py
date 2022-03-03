@@ -9,7 +9,7 @@ Contains class DBService which can be used to DB operations
 import json
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from backend.src.model.db_base import Base
+from backend.src.model.db_model import Base
 
 
 class DBService():
@@ -48,7 +48,7 @@ class DBService():
         return parser(self.conf[self.db_type])
 
     def get_sessionmaker(self) -> sessionmaker:
-        """gets sessionmaker object"""
+        """gets session-maker object"""
         engine = self.get_engine()
         session_maker = sessionmaker(engine)
         return session_maker

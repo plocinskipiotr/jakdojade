@@ -30,7 +30,7 @@ class SimpleETL:
 
     @staticmethod
     def file(path: str, func: callable, db: DBService):
-        """ Creates and executes etl process using data from file"""
+        """Creates and executes etl process using data from file"""
         filename = path.split('/')[-1].split('.')[0]
         process = SimpleETL(DataExtractor(path),
                             DataTransformer(func),

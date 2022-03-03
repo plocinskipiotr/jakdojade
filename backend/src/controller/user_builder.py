@@ -2,7 +2,7 @@ from backend.src.controller.user import User
 from backend.src.controller.gps_coordinates_builder import GPSCoordinatesDirector
 
 
-class UserBuilder():
+class UserBuilder:
 
     def __init__(self):
         self.user = User()
@@ -19,7 +19,7 @@ class UserBuilder():
         return self.user
 
 
-class UserDirector():
+class UserDirector:
 
     @staticmethod
     def construct(lat: float, long: float, age) -> User:

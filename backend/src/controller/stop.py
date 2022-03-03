@@ -1,23 +1,21 @@
-from backend.src.controller.trip import Trip
-from backend.src.controller.gps_coordinates import GPS_Coordinates
+from backend.src.controller.gpscoordinates import GPSCoordinates
 
 
-class Stop():
+class Stop:
 
     def __init__(self):
-        self.id: int = 0
+        self.ID: int = 0
         self.name: str = ''
-        self.gps_coordinates: GPS_Coordinates = GPS_Coordinates()
-        self.trips: set[Trip] = set()
+        self.gps_coordinates: GPSCoordinates = GPSCoordinates()
 
     def __eq__(self, other):
-        return self.id == other.id
+        return self.ID == other.ID
 
     def __ne__(self, other):
-        return self.id != other.id
+        return self.ID != other.ID
 
     def serialize(self):
-        return {'stop': {'id': self.id,
+        return {'stop': {'id': self.ID,
                          'name': self.name,
                          'gps_coordinates': self.gps_coordinates.serialize()}
                 }

@@ -1,4 +1,5 @@
 from backend.src.controller.closest_stops import closest_stops
+from backend.src.controller.stop_builder import StopDBModelDirector
 from backend.src.controller.user_builder import UserDirector
 from backend.src.model.db_kalisz import KaliszStops
 from backend.src.model.db_wroclaw import WroclawStops
@@ -21,6 +22,7 @@ class TestClosestStops:
         ]
 
         u = UserDirector.construct(23.230, 17.21, 25)
+        stops = [StopDBModelDirector.construct(stop) for stop in stops]
         res = closest_stops(u, stops)
         assert list(res) == [stops[0], stops[2], stops[1], stops[4], stops[3]]
 

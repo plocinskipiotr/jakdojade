@@ -14,7 +14,7 @@ from backend.src.model.db_service import DBService
 from backend.src.model.db_table_to_class import TableToClass
 
 
-class DataLoader():
+class DataLoader:
     """This class can be used to load data to database
 
     arguments:
@@ -40,7 +40,8 @@ class DataLoader():
                 el = self.table_cls(**item)
                 session.add(el)
 
-    def find_table_class(self, table_name: str):
+    @staticmethod
+    def find_table_class(table_name: str):
         """finding corresponding class to table_name
 
         arguments:

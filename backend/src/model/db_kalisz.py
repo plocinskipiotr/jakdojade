@@ -1,4 +1,4 @@
-from backend.src.model.db_base import Routes, StopTimes, Stops, Trips
+from backend.src.model.db_model import Routes, StopTimes, Stops, Trips
 
 
 class KaliszRoutes(Routes):

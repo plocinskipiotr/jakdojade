@@ -1,8 +1,17 @@
+import os
+from pathlib import Path
+
 from backend.src.migration.data_transformations import city_trans, route_trans, stop_times_trans, \
     stop_trans, trips_trans
 from backend.src.migration.etl_process import SimpleETL
-from backend.src.migration.constants import CITIES_FILE, ROUTES_DIR, STOPS_DIR, STOP_TIMES_DIR, TRIPS_DIR
 from backend.src.model.db_queries import db
+from settings import ROOT_DIR
+
+ROUTES_DIR = os.path.join(ROOT_DIR, Path('backend/data/routes'))
+STOP_TIMES_DIR = os.path.join(ROOT_DIR, 'backend/data/stop_times')
+STOPS_DIR = os.path.join(ROOT_DIR, 'backend/data/stops')
+TRIPS_DIR = os.path.join(ROOT_DIR, 'backend/data/trips')
+CITIES_FILE = os.path.join(ROOT_DIR, 'backend/data/cities.txt')
 
 
 def db_init():

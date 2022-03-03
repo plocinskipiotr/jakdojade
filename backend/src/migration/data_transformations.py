@@ -1,4 +1,13 @@
-from backend.src.migration.constants import POL_TO_ENG
+POL_TO_ENG = {ord('ł'): ord('l'),
+              ord('ą'): ord('a'),
+              ord('ć'): ord('c'),
+              ord('ę'): ord('e'),
+              ord('ń'): ord('n'),
+              ord('ó'): ord('o'),
+              ord('ź'): ord('z'),
+              ord('ż'): ord('z'),
+              ord('ś'): ord('s')
+              }
 
 
 def route_trans() -> callable:

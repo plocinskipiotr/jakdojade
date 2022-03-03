@@ -1,13 +1,13 @@
 from math import cos, sqrt
 
 
-class GPS_Coordinates():
+class GPSCoordinates:
 
     def __init__(self):
         self.latitude: int = 0
         self.longitude: int = 0
 
-    def calc_distance(self, other: 'GPS_Coordinates'):
+    def calc_distance(self, other: 'GPSCoordinates'):
         x = 69.1 * (self.latitude - other.latitude)
         y = 69.1 * (self.longitude - other.longitude) * cos(self.latitude / 57.3)
         result = sqrt(x * x + y * y)

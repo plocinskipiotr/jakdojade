@@ -10,11 +10,12 @@ Example:
 """
 
 
-class DataTransformer():
+class DataTransformer:
     """This class can be used to transform data"""
 
     def __init__(self, func: callable):
         self.func = func
+        self.data = None
 
     def transform(self, data: list[list]) -> list[list]:
         """Transformation function"""

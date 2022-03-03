@@ -60,10 +60,10 @@ class DataExtractor():
             data = list(reader(csvfile, dialect, **kwargs))
         return data[1:] if has_header else data
 
-    def _extract_json(path: str, **kwargs):
+    def _extract_json(self, path: str, **kwargs):
         """Extracts JSON format"""
         raise NotImplementedError('Extract json not implemented yet')
 
-    def _extract_xml(path: str, **kwargs):
+    def _extract_xml(self, path: str, **kwargs):
         """Extract XML format"""
         raise NotImplementedError('Extract xml not implemented yet')

@@ -1,7 +1,7 @@
 from sqlalchemy import select
 
 from backend.src.model.constants import DB_CONF, POSTGRES, CITY
-from backend.src.model.db_base import Cities
+from backend.src.model.db_model import Cities
 from backend.src.model.db_service import DBService
 from backend.src.model.db_table_to_class import TableToClass
 

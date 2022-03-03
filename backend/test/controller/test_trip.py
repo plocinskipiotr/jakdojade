@@ -39,11 +39,11 @@ class TestTrip:
     def test_trip(self):
         t = TripSQLDirector.construct('3_10090600')
         assert isinstance(t, Trip)
-        assert t.id == '3_10090600'
+        assert t.ID == '3_10090600'
         assert t.stop_timetables == STOP_TIMETABLES
 
     def test_trip_fail(self):
         t = TripSQLDirector.construct('3_32')
         assert isinstance(t, Trip)
-        assert t.id == '3_32'
+        assert t.ID == '3_32'
         assert t.stop_timetables == {}

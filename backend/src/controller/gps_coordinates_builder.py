@@ -1,10 +1,10 @@
-from backend.src.controller.gps_coordinates import GPS_Coordinates
+from backend.src.controller.gpscoordinates import GPSCoordinates
 
 
-class GPSCoordinatesBuilder():
+class GPSCoordinatesBuilder:
 
     def __init__(self):
-        self.gps_coordinates = GPS_Coordinates()
+        self.gps_coordinates = GPSCoordinates()
 
     def with_latitude(self, latitude: float):
         self.gps_coordinates.latitude = latitude
@@ -14,11 +14,11 @@ class GPSCoordinatesBuilder():
         self.gps_coordinates.longitude = longitude
         return self
 
-    def get_result(self) -> GPS_Coordinates:
+    def get_result(self) -> GPSCoordinates:
         return self.gps_coordinates
 
 
-class GPSCoordinatesDirector():
+class GPSCoordinatesDirector:
 
     @staticmethod
     def construct(latitude: float, longitude: float):
