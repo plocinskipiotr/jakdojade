@@ -1,3 +1,6 @@
+"""Set of transformation functions which are used to transform/filter data
+between extraction and loading to DB
+"""
 POL_TO_ENG = {ord('ł'): ord('l'),
               ord('ą'): ord('a'),
               ord('ć'): ord('c'),

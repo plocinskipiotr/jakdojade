@@ -1,7 +1,9 @@
+"""Contains builder for GPS coordinates class"""
 from backend.src.controller.gpscoordinates import GPSCoordinates
 
 
 class GPSCoordinatesBuilder:
+    """Builder for GPS coordinates class"""
 
     def __init__(self):
         self.gps_coordinates = GPSCoordinates()
@@ -21,7 +23,8 @@ class GPSCoordinatesBuilder:
 class GPSCoordinatesDirector:
 
     @staticmethod
-    def construct(latitude: float, longitude: float):
+    def construct(latitude: float, longitude: float) -> GPSCoordinates:
+        """Construct builder method"""
         return GPSCoordinatesBuilder() \
             .with_latitude(latitude) \
             .with_longitude(longitude) \

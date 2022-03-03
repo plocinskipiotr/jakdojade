@@ -16,7 +16,7 @@ from csv import reader, Sniffer
 from backend.src.controller.validate_path import validate_path_file
 
 
-class DataExtractor():
+class DataExtractor:
     """This class can be used to extract data from different file formats
 
     arguments:

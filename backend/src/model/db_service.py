@@ -2,7 +2,7 @@
 Contains class DBService which can be used to DB operations
 
     note:
-        Uses Base object from db_model. Thanks to this object DB schema can be constructed
+        Uses Base objects from db_model. Thanks to this object DB schema can be constructed
 
 """
 
@@ -12,7 +12,7 @@ from sqlalchemy.orm import sessionmaker
 from backend.src.model.db_model import Base
 
 
-class DBService():
+class DBService:
     """This class is responsible for db communication
 
         arguments:
@@ -58,7 +58,7 @@ class DBService():
         engine = create_engine(self.conn_string)
         return engine
 
-    def string_parser(self):
+    def string_parser(self) -> callable:
         """gets string parser"""
         if self.db_type == 'postgres':
             return DBService.postgres_parser

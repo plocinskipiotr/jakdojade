@@ -18,10 +18,6 @@ class Routes(AbstractConcreteBase, Base):
     route_short_name = Column(String, nullable=False)
     route_desc = Column(String, nullable=False)
 
-    def __repr__(self):
-        return "<Routes(route_id={0}, route_short_name={1}, route_desc={2})>" \
-            .format(self.route_id, self.route_short_name, self.route_desc)
-
     def serialize(self):
         return {'route_id': self.route_id,
                 'route_short_name': self.route_short_name,

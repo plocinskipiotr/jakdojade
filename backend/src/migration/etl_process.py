@@ -29,7 +29,7 @@ class SimpleETL:
         self.loader.load_data(data)
 
     @staticmethod
-    def file(path: str, func: callable, db: DBService):
+    def file(path: str, func: callable, db: DBService) -> None:
         """Creates and executes etl process using data from file"""
         filename = path.split('/')[-1].split('.')[0]
         process = SimpleETL(DataExtractor(path),
@@ -38,7 +38,7 @@ class SimpleETL:
         process.execute()
 
     @staticmethod
-    def directory(path: str, func: callable, db: DBService):
+    def directory(path: str, func: callable, db: DBService) -> None:
         """Creates and executes etl process using data from directory"""
         path = validate_path(path)
 

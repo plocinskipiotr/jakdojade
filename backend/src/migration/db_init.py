@@ -1,3 +1,6 @@
+"""This file contains db_init which is used to drop/create database schema
+and for loading the data"""
+
 import os
 from pathlib import Path
 

@@ -1,19 +1,16 @@
 import datetime
-import sys
 from flask import Flask, jsonify, request
 from settings import ROOT_DIR
-
-sys.path.append(ROOT_DIR)
-from backend.src.migration.db_init import db_init
-from backend.src.controller.stop_builder import StopDBModelDirector
-from backend.src.model.db_queries import query_cities, query_routes, query_stops
-# from backend.src.view.view import serialize_db_cities, serialize_db_routes, serialize_db_stops, serialize_trips, \
-#    serialize_departure, jsonify_list
+from backend.src.controller.find_trips import find_trips
+from backend.src.controller.find_departure import find_departure
+from backend.src.controller.validate_path import validate_path
 from backend.src.controller.user_builder import UserDirector
-
+from backend.src.controller.stop_builder import StopDBModelDirector
 from backend.src.controller.closest_stops import closest_stops
-from backend.src.controller.find_trips import find_trips, find_departure
+from backend.src.migration.db_init import db_init
+from backend.src.model.db_queries import query_cities, query_routes, query_stops
 
+validate_path(ROOT_DIR)
 db_init()
 
 app = Flask(__name__)
@@ -50,48 +47,47 @@ def seek_closest_stops(city: str):
     stops = jsonify([item.serialize() for item in stops])
     return stops
 
-#
-# @app.route('/public_transport/city/<string:city>/find_trips', methods=['GET'])
-# def seek_trips(city: str):
-#     user_lat = float(request.args.get('u_lat'))
-#     user_long = float(request.args.get('u_long'))
-#     user_age = int(request.args.get('age', 25))
-#     user = UserDirector.construct(user_lat, user_long, user_age)
-#
-#     target_lat = float(request.args.get('t_lat'))
-#     target_long = float(request.args.get('t_long'))
-#     target = UserDirector.construct(target_lat, target_long, user_age)
-#
-#     user_stop = closest_stops(user, query_stops(city), stop_limit=1)[0]
-#     target_stop = closest_stops(target, query_stops(city), stop_limit=1)[0]
-#     user_stop = StopDBModelDirector.construct(user_stop)
-#     target_stop = StopDBModelDirector.construct(target_stop)
-#
-#     time = datetime.datetime.now().strftime('%H:%M:%S')
-#     trips = find_trips(user_stop, target_stop, time)
-#     trips = serialize_trips(trips)
-#
-#     return trips
-#
-#
-# @app.route('/public_transport/city/<string:city>/departure', methods=['GET'])
-# def seek_departure(city: str):
-#     user_lat = float(request.args.get('u_lat'))
-#     user_long = float(request.args.get('u_long'))
-#     user_age = int(request.args.get('age', 25))
-#     user = UserDirector.construct(user_lat, user_long, user_age)
-#
-#     target_lat = float(request.args.get('t_lat'))
-#     target_long = float(request.args.get('t_long'))
-#     target = UserDirector.construct(target_lat, target_long, user_age)
-#
-#     user_stop = closest_stops(user, query_stops(city), stop_limit=1)[0]
-#     target_stop = closest_stops(target, query_stops(city), stop_limit=1)[0]
-#     user_stop = StopDBModelDirector.construct(user_stop)
-#     target_stop = StopDBModelDirector.construct(target_stop)
-#
-#     time = datetime.datetime.now().strftime('%H:%M:%S')
-#     trips = find_departure(user_stop, target_stop, time)
-#     departure = serialize_departure(trips)
-#
-#     return departure
+
+@app.route('/public_transport/city/<string:city>/find_trips', methods=['GET'])
+def seek_trips(city: str):
+    user_lat = float(request.args.get('u_lat'))
+    user_long = float(request.args.get('u_long'))
+    user_age = int(request.args.get('age', 25))
+    user = UserDirector.construct(user_lat, user_long, user_age)
+
+    target_lat = float(request.args.get('t_lat'))
+    target_long = float(request.args.get('t_long'))
+    target = UserDirector.construct(target_lat, target_long, user_age)
+
+    time = str(request.args.get('time', datetime.datetime.now().strftime('%H:%M:%S')))
+
+    stops = [StopDBModelDirector.construct(stop) for stop in query_stops(city)]
+
+    user_stop = closest_stops(user, stops, stop_limit=1)[0]
+    target_stop = closest_stops(target, stops, stop_limit=1)[0]
+
+    trips = find_trips(user_stop, target_stop, time)
+    trips = jsonify([item.serialize() for item in trips])
+
+    return trips
+
+
+@app.route('/public_transport/city/<string:city>/departure', methods=['GET'])
+def seek_departure(city: str):
+    user_lat = float(request.args.get('u_lat'))
+    user_long = float(request.args.get('u_long'))
+    user_age = int(request.args.get('age', 25))
+    target_lat = float(request.args.get('t_lat'))
+    target_long = float(request.args.get('t_long'))
+    time = str(request.args.get('time', datetime.datetime.now().strftime('%H:%M:%S')))
+
+    user = UserDirector.construct(user_lat, user_long, user_age)
+    target = UserDirector.construct(target_lat, target_long, user_age)
+    stops = [StopDBModelDirector.construct(stop) for stop in query_stops(city)]
+
+    user_stop = closest_stops(user, stops, stop_limit=1)[0]
+    target_stop = closest_stops(target, stops, stop_limit=1)[0]
+
+    dep_time = find_departure(user_stop, target_stop, time)
+    json = jsonify(user_stop.serialize(), {'departure_time': dep_time})
+    return json

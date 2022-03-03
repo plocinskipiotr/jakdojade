@@ -1,7 +1,9 @@
+from typing import Iterable
+
 from sqlalchemy import select
 
-from backend.src.model.constants import DB_CONF, POSTGRES, CITY
-from backend.src.model.db_model import Cities
+from settings import DB_CONF, POSTGRES, CITY
+from backend.src.model.db_model import Cities, Routes, Stops
 from backend.src.model.db_service import DBService
 from backend.src.model.db_table_to_class import TableToClass
 
@@ -10,35 +12,35 @@ session_maker = db.get_sessionmaker()
 session = session_maker()
 
 
-def query_cities():
+def query_cities() -> Iterable[Cities]:
     result = session.query(Cities).all()
     return result
 
 
-def query_routes(city: str = CITY):
+def query_routes(city: str = CITY) -> Iterable[Routes]:
     result = session.query(TableToClass.parse(city + '_routes')).all()
     return result
 
 
-def query_stops(city: str = CITY):
+def query_stops(city: str = CITY) -> Iterable[Stops]:
     result = session.query(TableToClass.parse(city + '_stops')).all()
     return result
 
 
-def query_stop_name(stop_id: int, city: str = CITY):
+def query_stop_name(stop_id: int, city: str = CITY) -> Iterable[tuple[str]]:
     tab_obj = TableToClass.parse(city + '_stops')
     result = session.execute(select(tab_obj.stop_name).where(tab_obj.stop_id == stop_id))
     return result
 
 
-def query_gps_coordinates(stop_id: int, city: str = CITY):
+def query_gps_coordinates(stop_id: int, city: str = CITY) -> Iterable[tuple[float, float]]:
     tab_obj = TableToClass.parse(city + '_stops')
     result = session.execute(select(tab_obj.stop_lat, tab_obj.stop_lon)
                              .where(tab_obj.stop_id == stop_id))
     return result
 
 
-def query_stop_time_tables(trip_id: str, city: str = CITY):
+def query_stop_time_tables(trip_id: str, city: str = CITY) -> Iterable[tuple[int, str, str]]:
     tab_obj = TableToClass.parse(city + '_stop_times')
     result = session.execute(select(tab_obj.stop_id, tab_obj.arrival_time, tab_obj.departure_time)
                              .where(tab_obj.trip_id == trip_id))
@@ -46,7 +48,7 @@ def query_stop_time_tables(trip_id: str, city: str = CITY):
     return result
 
 
-def query_trip_ids(stop_id: int, city: str = CITY):
+def query_trip_ids(stop_id: int, city: str = CITY) -> Iterable[tuple[str]]:
     tab_obj = TableToClass.parse(city + '_stop_times')
     result = session.execute(select(tab_obj.trip_id)
                              .where(tab_obj.stop_id == stop_id)

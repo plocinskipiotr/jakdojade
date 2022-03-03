@@ -4,7 +4,7 @@ from backend.src.model.db_poznan import PoznanRoutes, PoznanStops, PoznanTrips, 
 from backend.src.model.db_wroclaw import WroclawRoutes, WroclawTrips, WroclawStopTimes, WroclawStops
 
 
-class TableToClass():
+class TableToClass:
     table_class = {
         'cities': Cities,
         'wroclaw_routes': WroclawRoutes,

@@ -12,9 +12,5 @@ RUN apk update --no-cache \
 && pip install --no-cache-dir -r requirements.txt \
 && apk del .build-deps
 RUN apk add postgresql-libs libpq --no-cache
-#WORKDIR /jakdojade
-#COPY requirements.txt requirements.txt
-#RUN pip install -r requirements.txt
 EXPOSE 5000
-WORKDIR /jakdojade/services/web
 CMD ["flask", "run"]
