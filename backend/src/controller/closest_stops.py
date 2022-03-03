@@ -12,23 +12,6 @@ def closest_stops(user: User, stops: list[db_base.Stops], stop_limit=5) -> list[
     def distance_filter(max_heap: list[HeapNode], age: int):
         return list(filter(lambda x: abs(x.distance) < to_radius(age), max_heap))
 
-    def to_radius(age: int) -> float:
-        if age < 16:
-            return 1
-        elif age < 26:
-            return 5
-        elif age < 36:
-            return 2
-        elif age < 51:
-            return 1
-        elif age < 66:
-            return 0.5
-        else:
-            return 0.1
-
-    def root(heap: list) -> HeapNode:
-        return heap[0]
-
     max_heap = list()
 
     for stop in stops:
@@ -49,3 +32,22 @@ def closest_stops(user: User, stops: list[db_base.Stops], stop_limit=5) -> list[
     stop_lst = [node.stop for node in node_lst]
 
     return stop_lst
+
+
+def root(heap: list) -> HeapNode:
+    return heap[0]
+
+
+def to_radius(age: int) -> float:
+    if age < 16:
+        return 1
+    elif age < 26:
+        return 5
+    elif age < 36:
+        return 2
+    elif age < 51:
+        return 1
+    elif age < 66:
+        return 0.5
+    else:
+        return 0.1

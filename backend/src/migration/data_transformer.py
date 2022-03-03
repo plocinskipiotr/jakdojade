@@ -11,24 +11,12 @@ Example:
 
 
 class DataTransformer():
-    """This class can be used to transform data
-
-    arguments:
-        func (callable): transformation function
-
-    note:
-        data should be in format list[list]
-
-    """
+    """This class can be used to transform data"""
 
     def __init__(self, func: callable):
         self.func = func
 
     def transform(self, data: list[list]) -> list[list]:
-        """Transformation function
-
-        Returns:
-            data in format list[list]
-        """
+        """Transformation function"""
         self.data = [self.func(item) for item in data]
         return self.data

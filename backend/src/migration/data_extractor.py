@@ -32,31 +32,16 @@ class DataExtractor():
         self.path = validate_path_file(path)
 
     def extract_data(self, **kwargs) -> list[list] | dict:
-        """Extracts data from source file
-
-        arguments:
-            optional kwargs supported
-
-        returns:
-            data in format list[rows] or dict
-        """
+        """Extracts data from source file """
         extract_func = self._find_extract_func()
         return extract_func(**kwargs)
 
     def _find_extract_func(self) -> callable:
-        """Chooses adequate extract function based on file extension
-
-        Returns:
-            data in format list or dict
-
-        Raises:
-            ValueError: If file extension is not supported
-
-        """
+        """Chooses adequate extract function based on file extension"""
         if self.path[-3:] == 'csv':
             return self._extract_csv
         if self.path[-3:] == 'txt':
-            logging.warning('input data with .txt extension ' + str(self._extract_csv) + ' migration chosen')
+            logging.warning('input data with .txt extension csv extractor selected')
             return self._extract_csv
         elif self.path[-4:] == 'json':
             return self._extract_json
@@ -66,11 +51,7 @@ class DataExtractor():
             raise ValueError('unknown file extension ' + self.path)
 
     def _extract_csv(self, **kwargs) -> list[list]:
-        """Extracts CSV format
-
-        Returns:
-            data in format list[list]
-        """
+        """Extracts CSV format"""
         with open(self.path, mode='r', newline='') as csvfile:
             dialect = Sniffer().sniff(csvfile.read(1024))
             csvfile.seek(0)
@@ -80,17 +61,9 @@ class DataExtractor():
         return data[1:] if has_header else data
 
     def _extract_json(path: str, **kwargs):
-        """Extracts JSON format
-
-        TODO:
-            * Implementation
-        """
+        """Extracts JSON format"""
         raise NotImplementedError('Extract json not implemented yet')
 
     def _extract_xml(path: str, **kwargs):
-        """Extract XML format
-
-        TODO:
-            * Implementation
-        """
+        """Extract XML format"""
         raise NotImplementedError('Extract xml not implemented yet')

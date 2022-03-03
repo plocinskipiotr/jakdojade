@@ -13,6 +13,19 @@ class GPS_Coordinates():
         result = sqrt(x * x + y * y)
         return self._change_to_kilometers(result)
 
+    def serialize(self):
+        return {'latitude': self.latitude,
+                'longitude': self.longitude
+                }
+
+    def __eq__(self, other):
+        return self.latitude == other.latitude and \
+               self.longitude == other.longitude
+
+    def __ne__(self, other):
+        return self.latitude != other.latitude and \
+               self.longitude != other.longitude
+
     @staticmethod
     def _change_to_kilometers(val: float):
         return val / 0.62137

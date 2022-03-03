@@ -1,13 +1,13 @@
 import os
 from pathlib import Path
 
-ROOT_DIR = Path(__file__).parent.parent.parent.parent
+from backend.settings import ROOT_DIR
 
-ROUTES_DIR = os.path.join(ROOT_DIR, 'backend/data/routes')
-STOP_TIMES_DIR = os.path.join(ROOT_DIR, 'backend/data/stop_times')
-STOPS_DIR = os.path.join(ROOT_DIR, 'backend/data/stops')
-TRIPS_DIR = os.path.join(ROOT_DIR, 'backend/data/trips')
-CITIES_FILE = os.path.join(ROOT_DIR, 'backend/data/cities.txt')
+ROUTES_DIR = os.path.join(ROOT_DIR, Path('data/routes'))
+STOP_TIMES_DIR = os.path.join(ROOT_DIR, 'data/stop_times')
+STOPS_DIR = os.path.join(ROOT_DIR, 'data/stops')
+TRIPS_DIR = os.path.join(ROOT_DIR, 'data/trips')
+CITIES_FILE = os.path.join(ROOT_DIR, 'data/cities.txt')
 
 POL_TO_ENG = {ord('ł'): ord('l'),
               ord('ą'): ord('a'),

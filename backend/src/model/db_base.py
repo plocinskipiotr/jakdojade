@@ -9,9 +9,6 @@ class Cities(Base):
     city_id = Column(Integer, primary_key=True)
     city_name = Column(VARCHAR, nullable=False)
 
-    def __repr__(self):
-        return "<Cities(city_id={0}, city_name={1})>".format(self.city_id, self.city_name)
-
     def serialize(self):
         return {self.city_id: self.city_name}
 
@@ -53,8 +50,14 @@ class Stops(AbstractConcreteBase, Base):
 
 
 class Trips(AbstractConcreteBase, Base):
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    route_id = Column(String, primary_key=True)
-    trip_id = Column(String)
+    route_id = Column(String)
+    trip_id = Column(String, primary_key=True)
     trip_headsign = Column(String)
     direction_id = Column(Integer)
+
+    def serialize(self):
+        return {'route_id': self.route_id,
+                'trip_id': self.trip_id,
+                'trip_headsign': self.trip_headsign,
+                'direction_id': self.direction_id,
+                }

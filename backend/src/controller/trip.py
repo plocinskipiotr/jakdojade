@@ -1,15 +1,19 @@
 class Trip:
 
     def __init__(self):
-        self.city: str = ''
         self.id: str = ''
         self.stop_timetables: dict = dict()
 
-    def arrival_time_by_stop_id(self, id: int):
-        return self.stop_timetables[id]['arrival']
+    def arrival_time(self, stop_id: int):
+        return self.stop_timetables[stop_id]['arrival']
 
-    def departure_time_by_stop_id(self, id: int):
-        return self.stop_timetables[id]['departure']
+    def departure_time(self, stop_id: int):
+        return self.stop_timetables[stop_id]['departure']
+
+    def serialize(self):
+        return {'id': self.id,
+                'stop_timetables': self.stop_timetables
+                }
 
     def __eq__(self, other):
         return self.id == other.id

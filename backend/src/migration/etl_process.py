@@ -15,16 +15,7 @@ import os
 
 
 class SimpleETL:
-    """This class provides ETL processes
-
-        Arguments/attributes:
-            migration (DataExtractor): extracts data
-            transformer (DataTransformer): transforms data
-            loader (DataLoader): loads data to db
-
-        TODO:
-            * create more sophisticated ETL processes (chain design pattern)
-    """
+    """This class provides ETL processes"""
 
     def __init__(self, extractor: DataExtractor, transformer: DataTransformer, loader: DataLoader):
         self.extractor = extractor
@@ -39,13 +30,7 @@ class SimpleETL:
 
     @staticmethod
     def file(path: str, func: callable, db: DBService):
-        """ Creates and executes etl process using data from file
-
-        Arguments:
-            path (str) : input file
-            func (callable) : transformation func
-            db (DBService) : db object
-        """
+        """ Creates and executes etl process using data from file"""
         filename = path.split('/')[-1].split('.')[0]
         process = SimpleETL(DataExtractor(path),
                             DataTransformer(func),

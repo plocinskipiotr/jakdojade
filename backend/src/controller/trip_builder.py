@@ -9,10 +9,6 @@ class TripBuilder():
     def __init__(self):
         self.trip = Trip()
 
-    def with_city(self, city: str):
-        self.trip.city = city
-        return self
-
     def with_id(self, id: str):
         self.trip.id = id
         return self
@@ -28,11 +24,10 @@ class TripBuilder():
 class TripSQLDirector():
 
     @staticmethod
-    def construct(city: str, id: str) -> Trip:
+    def construct(id: str) -> Trip:
         return TripBuilder() \
-            .with_city(city) \
             .with_id(id) \
-            .with_stop_timetables(TripSQLDirector.to_dict(query_stop_time_tables(city, id))) \
+            .with_stop_timetables(TripSQLDirector.to_dict(query_stop_time_tables(id))) \
             .get_result()
 
     @staticmethod
@@ -47,9 +42,8 @@ class TripSQLDirector():
 class TripStandardDirector():
 
     @staticmethod
-    def construct(city: str, id: str, stop_time_tables: dict[str, tuple[str, str]]) -> Trip:
+    def construct(id: str, stop_time_tables: dict[str, tuple[str, str]]) -> Trip:
         return TripBuilder() \
-            .with_city(city) \
             .with_id(id) \
             .with_stop_timetables(stop_time_tables) \
             .get_result()

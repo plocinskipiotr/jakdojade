@@ -1,6 +1,13 @@
+import logging
 import os
 from pathlib import Path
+from backend.settings import ROOT_DIR
 
-ROOT_DIR = Path(__file__).parent.parent.parent.parent
+# Data base configuration file
+DB_CONF = os.path.join(ROOT_DIR, 'db/db_conf.json')
+# Data base type
 POSTGRES = 'postgres'
-DB_CONF = os.path.join(ROOT_DIR, 'backend/db/db_conf.json')
+# City used in queries
+CITY = 'wroclaw'
+
+logging.warning('db transaction only for ' + CITY + ' are enabled\n more info ' + str(Path(__file__)))

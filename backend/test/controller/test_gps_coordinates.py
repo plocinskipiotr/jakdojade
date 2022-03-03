@@ -7,3 +7,5 @@ class TestGeopoint:
     def test_geopoint(self):
         g = GPSCoordinatesDirector.construct(51.084062, 16.904824)
         assert isinstance(g, GPS_Coordinates)
+        assert g.latitude == 51.084062
+        assert g.longitude == 16.904824

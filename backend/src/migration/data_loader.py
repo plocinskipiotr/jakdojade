@@ -33,12 +33,7 @@ class DataLoader():
         self.table_cls = self.find_table_class(table_name)
 
     def load_data(self, data: list[list]):
-        """loads data to database
-
-        arguments:
-            data in format list[list]
-
-        """
+        """loads data to database"""
         Session = self.db.get_sessionmaker()
         with Session.begin() as session:
             for item in data:
