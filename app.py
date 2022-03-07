@@ -1,16 +1,19 @@
 import datetime
+import time
 from flask import Flask, jsonify, request
 from settings import ROOT_DIR
-from backend.src.controller.find_trips import find_trips
+from backend.src.controller.find_trips import find_trips, trips_after_time, trip_by_arrival_time
 from backend.src.controller.find_departure import find_departure
 from backend.src.controller.validate_path import validate_path
 from backend.src.controller.user_builder import UserDirector
 from backend.src.controller.stop_builder import StopDBModelDirector
 from backend.src.controller.closest_stops import closest_stops
+from backend.src.view.view import trip_by_departure
 from backend.src.migration.db_init import db_init
 from backend.src.model.db_queries import query_cities, query_routes, query_stops
 
 validate_path(ROOT_DIR)
+time.sleep(10)
 db_init()
 
 app = Flask(__name__)
@@ -24,7 +27,7 @@ def hello():
 @app.route('/public_transport/cities', methods=['GET'])
 def cities():
     iterator = query_cities()
-    lst = jsonify([item.serialilze() for item in iterator])
+    lst = jsonify([item.serialize() for item in iterator])
     return lst
 
 
@@ -66,8 +69,9 @@ def seek_trips(city: str):
     user_stop = closest_stops(user, stops, stop_limit=1)[0]
     target_stop = closest_stops(target, stops, stop_limit=1)[0]
 
-    trips = find_trips(user_stop, target_stop, time)
-    trips = jsonify([item.serialize() for item in trips])
+    trips = find_trips(user_stop, target_stop)
+    trips = trips_after_time(trips, user_stop, time)
+    trips = jsonify([trip_by_departure(trip).serialize() for trip in trips])
 
     return trips
 
@@ -88,6 +92,12 @@ def seek_departure(city: str):
     user_stop = closest_stops(user, stops, stop_limit=1)[0]
     target_stop = closest_stops(target, stops, stop_limit=1)[0]
 
-    dep_time = find_departure(user_stop, target_stop, time)
-    json = jsonify(user_stop.serialize(), {'departure_time': dep_time})
+    trips = find_trips(user_stop, target_stop)
+    trips = trips_after_time(trips, user_stop, time)
+    trip = trip_by_arrival_time(trips, target_stop)[0]
+    dep_time = find_departure(trip, user_stop)
+
+    json = jsonify({'stop': user_stop.serialize(),
+                    'departure_time': dep_time,
+                    'trip': trip_by_departure(trip).serialize()})
     return json

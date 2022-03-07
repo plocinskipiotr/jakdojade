@@ -67,3 +67,4 @@ class DataExtractor:
     def _extract_xml(self, path: str, **kwargs):
         """Extract XML format"""
         raise NotImplementedError('Extract xml not implemented yet')
+

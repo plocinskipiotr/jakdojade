@@ -1,5 +1,8 @@
-"""Builder for stop class """
+"""This file contains stop builder class"""
+import logging
 from typing import Iterator
+
+from deprecated import deprecated
 
 from backend.src.controller.gpscoordinates import GPSCoordinates
 from backend.src.controller.gps_coordinates_builder import GPSCoordinatesDirector
@@ -16,14 +19,25 @@ class StopBuilder:
 
     def with_id(self, ID: int):
         self.stop.ID = ID
+        if not isinstance(ID, int):
+            logging.warning('Error during Stop initiation: invalid ID')
+
         return self
 
     def with_name(self, name: str):
         self.stop.name = name
+
+        if not isinstance(name, str):
+            logging.warning('Error during Stop initiation: invalid name, stop id ' + str(self.stop.ID))
+
         return self
 
     def with_gps_coordinates(self, gps_coordinates: GPSCoordinates):
         self.stop.gps_coordinates = gps_coordinates
+
+        if not isinstance(gps_coordinates, GPSCoordinates):
+            logging.warning('Error during Stop initiation: invalid gps coordinates ' + str(self.stop.ID))
+
         return self
 
     def get_result(self):
@@ -42,6 +56,25 @@ class StopStandardDirector:
             .get_result()
 
 
+class StopDBModelDirector:
+
+    @staticmethod
+    def construct(stop: Stops) -> Stop:
+        """Builder construction method which use query result to build instance by DB Stop Model object"""
+        return StopBuilder() \
+            .with_id(stop.stop_id) \
+            .with_name(StopIDDirector.to_name(query_stop_name(stop.stop_id))) \
+            .with_gps_coordinates(GPSCoordinatesDirector.construct(stop.stop_lat, stop.stop_lon)) \
+            .get_result()
+
+    @staticmethod
+    def to_name(iterator: Iterator[tuple]) -> str:
+        """Converts query result to name"""
+        el = list(iterator)
+        return el[0][0]
+
+
+@deprecated
 class StopIDDirector:
 
     @staticmethod
@@ -59,21 +92,3 @@ class StopIDDirector:
         single_point = list(iterator)[0]
         g = GPSCoordinatesDirector.construct(single_point[0], single_point[1])
         return g
-
-    @staticmethod
-    def to_name(iterator: Iterator[tuple]) -> str:
-        """Converts query result to name"""
-        el = list(iterator)
-        return el[0][0]
-
-
-class StopDBModelDirector:
-
-    @staticmethod
-    def construct(stop: Stops) -> Stop:
-        """Builder construction method which use query result to build instance by DB Stop Model object"""
-        return StopBuilder() \
-            .with_id(stop.stop_id) \
-            .with_name(StopIDDirector.to_name(query_stop_name(stop.stop_id))) \
-            .with_gps_coordinates(GPSCoordinatesDirector.construct(stop.stop_lat, stop.stop_lon)) \
-            .get_result()

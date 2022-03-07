@@ -24,14 +24,6 @@ class Routes(AbstractConcreteBase, Base):
                 'route_desc': self.route_desc}
 
 
-class StopTimes(AbstractConcreteBase, Base):
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    trip_id = Column(String)
-    arrival_time = Column(String)
-    departure_time = Column(String)
-    stop_id = Column(Integer)
-
-
 class Stops(AbstractConcreteBase, Base):
     stop_id = Column(Integer, primary_key=True)
     stop_name = Column(String)
@@ -43,6 +35,14 @@ class Stops(AbstractConcreteBase, Base):
                 'stop_name': self.stop_name,
                 'stop_lat': self.stop_lat,
                 'stop_lon': self.stop_lon}
+
+
+class StopTimes(AbstractConcreteBase, Base):
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    trip_id = Column(String)
+    arrival_time = Column(String)
+    departure_time = Column(String)
+    stop_id = Column(Integer)
 
 
 class Trips(AbstractConcreteBase, Base):

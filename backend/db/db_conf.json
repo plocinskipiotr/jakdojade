@@ -1,7 +1,7 @@
 {
   "postgres": {
     "dialect": "postgresql+psycopg2",
-    "host": "localhost",
+    "host": "db",
     "user": "postgres",
     "passwd": "postgres",
     "port": "5432",
