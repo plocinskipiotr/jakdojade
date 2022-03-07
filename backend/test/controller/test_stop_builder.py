@@ -19,7 +19,7 @@ class TestStopStandardDirector:
     def test_director_no_args(self):
         """Construct stop without arguments"""
         with pytest.raises(TypeError):
-            s = StopStandardDirector.construct()
+            _ = StopStandardDirector.construct()
 
 
 class TestStopDBModelDirector:

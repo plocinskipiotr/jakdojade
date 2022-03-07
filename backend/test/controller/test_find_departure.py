@@ -15,7 +15,5 @@ class TestFindDeparture:
 
     def test_bad_path(self):
         """Find departure for stop which is not in trip timetable"""
-        ans = '20:58:00'
         with pytest.raises(KeyError):
             _ = find_departure(trip_3_10000004, STOP_4588)
-

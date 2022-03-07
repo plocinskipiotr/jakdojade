@@ -16,4 +16,4 @@ class TestGPSCoordinates:
     def test_director_no_args(self):
         """Construct object without arguments (empty initiator)"""
         with pytest.raises(TypeError):
-            g = GPSCoordinatesDirector.construct()
+            _ = GPSCoordinatesDirector.construct()

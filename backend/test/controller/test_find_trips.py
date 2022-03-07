@@ -126,18 +126,18 @@ class TestFindTrips:
         mock_query_id_patch.side_effect = [{}, {}]
         mock_construct.side_effect = iter((mock_trip,))
         result = find_trips(STOP_4517, STOP_3144)
-        assert {} == ans
+        assert result == ans
 
     @patch('backend.src.controller.find_trips.query_trip_ids')
     @patch('backend.src.controller.find_trips.TripSQLDirector.construct')
     def test_no_trips(self, mock_construct, mock_query_id_patch):
         """No trips"""
         mock_trip = TripStandardDirector.construct('3_10000004', STOP_TIMETABLE_TRIP_3_10000004)
-        ans = {}
+        ans = set()
         mock_query_id_patch.side_effect = [{'3_10000001'}, {'3_10000004'}]
         mock_construct.side_effect = iter((mock_trip,))
         result = find_trips(STOP_4517, STOP_3144)
-        assert {} == ans
+        assert result == ans
 
     @patch('backend.src.controller.find_trips.query_trip_ids')
     @patch('backend.src.controller.find_trips.TripSQLDirector.construct')
