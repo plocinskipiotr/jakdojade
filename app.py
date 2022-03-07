@@ -13,7 +13,6 @@ from backend.src.migration.db_init import db_init
 from backend.src.model.db_queries import query_cities, query_routes, query_stops
 
 validate_path(ROOT_DIR)
-time.sleep(10)
 db_init()
 
 app = Flask(__name__)
