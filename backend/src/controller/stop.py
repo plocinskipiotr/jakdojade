@@ -1,4 +1,4 @@
-"""Represents transport (bus/tram) stop"""
+"""This file contains Stop class which represents bus/tram stop"""
 
 from backend.src.controller.gpscoordinates import GPSCoordinates
 
@@ -19,7 +19,6 @@ class Stop:
 
     def serialize(self) -> dict:
         """serialize instance attributes to dictionary"""
-        return {'stop': {'id': self.ID,
-                         'name': self.name,
-                         'gps_coordinates': self.gps_coordinates.serialize()}
-                }
+        return {'id': self.ID,
+                'name': self.name,
+                'gps_coordinates': self.gps_coordinates.serialize()}

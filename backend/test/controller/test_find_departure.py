@@ -1,21 +1,21 @@
-import datetime
+import pytest
 
-from backend.src.controller.closest_stops import closest_stops
 from backend.src.controller.find_departure import find_departure
-from backend.src.controller.user_builder import UserDirector
-from backend.src.controller.stop_builder import StopDBModelDirector
-from backend.src.model.db_queries import query_stops
+from trips import trip_3_10000004
+from stops import STOP_3144, STOP_4588
 
 
 class TestFindDeparture:
 
-    def test_find_departure(self):
-        user = UserDirector.construct(51.10125726, 17.10914151, 25)
-        target = UserDirector.construct(51.12250509, 17.03096835, 25)
-        time = '00:00:00'
-        stops = [StopDBModelDirector.construct(stop) for stop in query_stops('wroclaw')]
-        user_stop = closest_stops(user, stops, stop_limit=1)[0]
-        target_stop = closest_stops(target, stops, stop_limit=1)[0]
-        departure = find_departure(user_stop, target_stop, time)
+    def test_happy_path(self):
+        """Find departure for stop which exists in trip"""
+        ans = '20:58:00'
+        result = find_departure(trip_3_10000004, STOP_3144)
+        assert result == ans
 
-        x = 'BREAK'
+    def test_bad_path(self):
+        """Find departure for stop which is not in trip timetable"""
+        ans = '20:58:00'
+        with pytest.raises(KeyError):
+            _ = find_departure(trip_3_10000004, STOP_4588)
+
