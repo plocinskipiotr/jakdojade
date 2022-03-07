@@ -17,7 +17,7 @@ services:
     ports:
       - '5432:5432'
 
-  web:
+  jakdojade_web:
     build:
       context: .
       dockerfile: docker/services/web/Dockerfile

@@ -45,6 +45,7 @@ class StopBuilder:
 
 
 class StopStandardDirector:
+    """Standard Stop Director, all fields must be filled"""
 
     @staticmethod
     def construct(ID: int, name: str, gps_coordinates: GPSCoordinates) -> Stop:
@@ -57,13 +58,14 @@ class StopStandardDirector:
 
 
 class StopDBModelDirector:
+    """DBModel Director, only stop id is required, other required fields are queried from DB"""
 
     @staticmethod
     def construct(stop: Stops) -> Stop:
         """Builder construction method which use query result to build instance by DB Stop Model object"""
         return StopBuilder() \
             .with_id(stop.stop_id) \
-            .with_name(StopIDDirector.to_name(query_stop_name(stop.stop_id))) \
+            .with_name(StopDBModelDirector.to_name(query_stop_name(stop.stop_id))) \
             .with_gps_coordinates(GPSCoordinatesDirector.construct(stop.stop_lat, stop.stop_lon)) \
             .get_result()
 

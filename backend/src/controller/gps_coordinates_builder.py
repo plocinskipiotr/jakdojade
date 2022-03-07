@@ -21,6 +21,7 @@ class GPSCoordinatesBuilder:
 
 
 class GPSCoordinatesDirector:
+    """Director for GPSCoordinates"""
 
     @staticmethod
     def construct(latitude: float, longitude: float) -> GPSCoordinates:
