@@ -2,6 +2,7 @@
 FROM python:3.10-alpine
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_DEBUG=1
 WORKDIR /jakdojade
 COPY . .
 COPY requirements.txt requirements.txt
@@ -13,4 +14,4 @@ RUN apk update --no-cache \
 && apk del .build-deps
 RUN apk add postgresql-libs libpq --no-cache
 EXPOSE 5000
-CMD ["flask", "run"]
+CMD ["flask", "run", "--no-reload"]
