@@ -33,10 +33,10 @@ class DataExtractor:
 
     def extract_data(self, **kwargs) -> list[list] | dict:
         """Extracts data from source file """
-        extract_func = self._find_extract_func()
+        extract_func = self._get_extract_func()
         return extract_func(**kwargs)
 
-    def _find_extract_func(self) -> callable:
+    def _get_extract_func(self) -> callable:
         """Chooses adequate extract function based on file extension"""
         if self.path[-3:] == 'csv':
             return self._extract_csv
